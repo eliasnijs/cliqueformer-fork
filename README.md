@@ -4,7 +4,10 @@ This repository contains the official implementation of Cliqueformer, as describ
 
 **Cliqueformer: Model-Based Optimization with Structured Transformers**  
 Jakub Grudzien Kuba, Pieter Abbeel, Sergey Levine  
+
 BAIR, UC Berkeley
+
+ <img src="pictures/bair.png" width="200"/>
 
 <p align="center">
   <img src="pictures/dna.png" width="300"/>  <img src="pictures/material.png" width="300"/>
