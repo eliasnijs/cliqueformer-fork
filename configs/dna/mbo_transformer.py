@@ -14,27 +14,21 @@ def get_config():
     }
 
     config.model = {
-        'cls': 'CliqueformerDiscrete',
-        'n_cliques': 40, 
-        'clique_dim': 6,
-        'overlap': 1, 
+        'cls': 'MBOTransformerDiscrete',
         'transformer_dim': 64,
         'n_blocks': 2, 
         'n_heads': 2,
         'hidden_dims': 2 * (512,),
         'p_tran': 0.5, 
-        'p_mlp': 0.5, 
-        'alpha_vae': 1,
-        'temp_mse': 10,
         'act': nn.GELU(),
         'lr': 1e-4 
     }
 
     config.learner = {
-        'cls': 'GradientAscent',
-        'design_steps': 1000,
-        'decay': 0.5,
-        'lr': 3e-4
+        'cls': 'GradientAscentDiscrete',
+        'design_steps': 50,
+        'decay': 0.,
+        'lr': 2
     }
 
     return config 
