@@ -13,10 +13,10 @@ BAIR, UC Berkeley
 
 ## Abstract
 
-Cliqueformer is a scalable transformer-based architecture for model-based optimization (MBO) that learns the structure of the black-box function in the form of its functional graphical model (FGM). This approach bypasses the problem of distribution shift previously tackled by conservative methods. Cliqueformer demonstrates state-of-the-art performance on various tasks, from high-dimensional black-box functions to real-world chemical and genetic design problems.
+Cliqueformer is a scalable transformer-based architecture for model-based optimization (MBO) that learns the structure of the black-box function in the form of its functional graphical model (FGM). Cliqueformer demonstrates state-of-the-art performance on various tasks, from high-dimensional black-box functions to real-world chemical and genetic design problems.
 
 <p align="center">
-  <img src="pictures/Cliqueformer-diagram.png" alt="Illustration of Cliqueformer" width="600"/>
+  <img src="pictures/Cliqueformer-diagram.png" alt="Illustration of Cliqueformer" width="800"/>
 </p>
 
 ## Key Features
