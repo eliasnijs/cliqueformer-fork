@@ -1,4 +1,3 @@
-import torch
 import wandb
 
 run = wandb.init(project="Diffusion-DNA-RNA")

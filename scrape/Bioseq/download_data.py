@@ -1,6 +1,5 @@
 import numpy as np 
 import pandas as pd 
-import sys 
 
 from src.utils.sequence import seqs_to_one_hot
 
