@@ -25,7 +25,7 @@ flags.DEFINE_float('split_ratio', 0.8, 'Train-test split.')
 
 config_flags.DEFINE_config_file(
     'config',
-    'configs/lrbf/cliqueformer.py',
+    'configs/superconductor/cliqueformer.py',
     'File with hyperparameter configurations.',
     lock_config=False
 )
