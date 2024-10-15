@@ -6,6 +6,11 @@ This repository contains the official implementation of Cliqueformer, as describ
 Jakub Grudzien Kuba, Pieter Abbeel, Sergey Levine  
 BAIR, UC Berkeley
 
+<p align="center">
+  <img src="pictures/dna.png" width="300"/>  <img src="pictures/material.png" width="300"/>
+
+</p>
+
 ## Abstract
 
 Cliqueformer is a scalable transformer-based architecture for model-based optimization (MBO) that learns the structure of the black-box function in the form of its functional graphical model (FGM). This approach bypasses the problem of distribution shift previously tackled by conservative methods. Cliqueformer demonstrates state-of-the-art performance on various tasks, from high-dimensional black-box functions to real-world chemical and genetic design problems.
