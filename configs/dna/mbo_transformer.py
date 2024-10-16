@@ -9,7 +9,7 @@ def get_config():
 
     config.data = {
         'cls': 'DNA',
-        'from_existing': False,
+        'from_existing': True,
         'dna_property': 'k562'
     }
 
@@ -25,6 +25,7 @@ def get_config():
 
     config.learner = {
         'cls': 'GradientAscentDiscrete',
+        'flatten': False,
         'design_steps': 50,
         'decay': 0.,
         'lr': 2

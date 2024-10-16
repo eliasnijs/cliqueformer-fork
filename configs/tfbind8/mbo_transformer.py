@@ -23,6 +23,7 @@ def get_config():
 
     config.learner = {
         'cls': 'GradientAscentDiscrete',
+        'keep': True,
         'design_steps': 50,
         'decay': 0,
         'lr': 2,
