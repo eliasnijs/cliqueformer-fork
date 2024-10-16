@@ -10,7 +10,7 @@ import os
 from absl import app, flags
 from ml_collections import config_flags
 
-from models import Cliqueformer, CliqueformerDiscrete, COMsDiscrete, Naive, NaiveDiscrete
+from models import Cliqueformer, CliqueformerDiscrete, COMsDiscrete, Naive, NaiveDiscrete, MBOTransformer, MBOTransformerDiscrete
 from optimization.design import Design
 from optimization.lerners import GradientAscent, RWR, GradientAscentDiscrete, RWRDiscrete 
 from data import Dataset, LRBF, Superconductor, DNA, TFBind8

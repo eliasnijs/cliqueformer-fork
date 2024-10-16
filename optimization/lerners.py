@@ -70,7 +70,7 @@ class GradientAscentDiscrete(GradientAscent):
 
         self.structure_fn = (lambda x: x.view(-1, n_input * input_dim))
 
-        if "keep" and kwargs.pop("keep"):
+        if "keep" in kwargs.keys() and kwargs.pop("keep"):
             self.structure_fn = (lambda x: x)
         
     def design_fn(self):
