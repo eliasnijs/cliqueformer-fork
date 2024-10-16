@@ -16,8 +16,7 @@ def get_config():
         'transformer_dim': 64,
         'n_blocks': 2, 
         'n_heads': 2,
-        'hidden_dims': 2 * (256,),
-        'p_tran': 0.5, 
+        'p': 0.5, 
         'act': nn.GELU(),
         'lr': 1e-4 
     }

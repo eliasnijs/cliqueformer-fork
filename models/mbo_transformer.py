@@ -85,11 +85,11 @@ class MBOTransformer(nn.Module):
 
 class MBOTransformerDiscrete(MBOTransformer):
 
-    def __init__(self, n_input, input_dim, transformer_dim, n_blocks=2, n_heads=2, p=0.1, act=nn.GELU()):
+    def __init__(self, n_input, input_dim, transformer_dim, n_blocks=2, n_heads=2, p=0.1, act=nn.GELU(), lr=3e-4):
         
         effective_input_dim = n_input * input_dim
 
-        super().__init__(effective_input_dim, transformer_dim, n_blocks, n_heads, p, act)   
+        super().__init__(effective_input_dim, transformer_dim, n_blocks, n_heads, p, act, lr)   
 
     def forward(self, x):
 
