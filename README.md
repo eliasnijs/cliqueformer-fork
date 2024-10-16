@@ -34,3 +34,14 @@ Cliqueformer is a scalable transformer-based architecture for model-based optimi
 git clone https://github.com/znowu/cliqueformer-code.git
 cd cliqueformer-code
 pip install -r requirements.txt
+```
+
+## Downloading assets for DNA Enhancers experiments
+
+```bash
+cd scrape/Bioseq
+python download_data.py
+python download_model.py
+```
+
+
