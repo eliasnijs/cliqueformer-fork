@@ -42,6 +42,19 @@ pip install -r requirements.txt
 cd scrape/Bioseq
 python download_data.py
 python download_model.py
+cd ../..
 ```
 
+## Train an MBO model
 
+```bash
+python training.py
+```
+
+## Optimize designs from the pre-trained model
+
+```bash
+python optimize.py
+```
+
+You can change the task you want to solve by changing the config file in *training.py* and *optimize.py*. For example, for Superconductor: *'configs/superconductor/cliqueformer.py'*.
