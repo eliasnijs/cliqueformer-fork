@@ -67,8 +67,12 @@ class GradientAscentDiscrete(GradientAscent):
         n_input, input_dim = self.design.param.shape[-2:]
         self.n_input = n_input
         self.input_dim = input_dim
+
         self.structure_fn = (lambda x: x.view(-1, n_input * input_dim))
 
+        if "keep" in kwargs.keys() and kwargs.pop("keep"):
+            self.structure_fn = (lambda x: x)
+        
     def design_fn(self):
         x = torch.argmax(self.design.param, dim=-1)
         x = F.one_hot(x, self.input_dim)

@@ -9,8 +9,8 @@ def get_config():
 
     config.data = {
         'cls': 'DNA',
-        'from_existing': False,
-        'dna_property': 'k562'
+        'from_existing': True,
+        'dna_property': 'hepg2'
     }
 
     config.model = {
@@ -18,14 +18,14 @@ def get_config():
         'transformer_dim': 64,
         'n_blocks': 2, 
         'n_heads': 2,
-        'hidden_dims': 2 * (512,),
-        'p_tran': 0.5, 
+        'p': 0.5, 
         'act': nn.GELU(),
         'lr': 1e-4 
     }
 
     config.learner = {
         'cls': 'GradientAscentDiscrete',
+        'keep': True,
         'design_steps': 50,
         'decay': 0.,
         'lr': 2

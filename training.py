@@ -19,7 +19,7 @@ import models.graphops as graphops
 FLAGS = flags.FLAGS
 
 flags.DEFINE_integer('seed', int(1), 'Random seed.') 
-flags.DEFINE_integer('batch_size', int(256), 'Batch size.') 
+flags.DEFINE_integer('batch_size', int(512), 'Batch size.') 
 flags.DEFINE_integer('design_batch_size', int(1000), 'Design batch size.') 
 flags.DEFINE_integer('model_steps', int(4e4), 'Model learning size.') 
 flags.DEFINE_integer('beta_warmup', int(1e3), 'Number of KL warmup steps.')

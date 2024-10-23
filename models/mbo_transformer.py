@@ -39,6 +39,19 @@ class Transformer(nn.Module):
         x = self.lin(x)
 
         return x 
+
+
+class TransformerDiscrete(Transformer):
+
+    def __init__(self, n_input, input_dim, transformer_dim, n_blocks=2, n_heads=2, p=0.1, act=nn.GELU()):
+
+        super().__init__(input_dim, transformer_dim, n_blocks, n_heads, p, act)
+        
+        self.embedder = nn.Linear(input_dim, transformer_dim)
+        self.bnorm_emb = nn.BatchNorm1d(n_input)
+
+        self.dim_embedding = extras.sinusoidal_embedding(n_input, transformer_dim)
+        self.lin = nn.Linear(n_input, 1)
     
 
 class MBOTransformer(nn.Module):
@@ -85,14 +98,9 @@ class MBOTransformer(nn.Module):
 
 class MBOTransformerDiscrete(MBOTransformer):
 
-    def __init__(self, n_input, input_dim, transformer_dim, n_blocks=2, n_heads=2, p=0.1, act=nn.GELU()):
+    def __init__(self, n_input, input_dim, transformer_dim, n_blocks=2, n_heads=2, p=0.1, act=nn.GELU(), lr=3e-4):
         
-        effective_input_dim = n_input * input_dim
+        super().__init__(input_dim, transformer_dim, n_blocks, n_heads, p, act, lr)   
+        self.target_regressor = TransformerDiscrete(n_input, input_dim, transformer_dim, n_blocks, n_heads, p, act)
+        self.optimizer = optim.Adam(self.parameters(), lr=lr)
 
-        super().__init__(effective_input_dim, transformer_dim, n_blocks, n_heads, p, act)   
-
-    def forward(self, x):
-
-        B, T, D = x.shape 
-        x = x.reshape(B, -1)
-        return super().forward(x)

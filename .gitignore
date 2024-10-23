@@ -1,7 +1,5 @@
 wandb
-fgm_architectures.py
-fgm_design_bench.py
-best_graphformer.py
 design_baselines/
 saved_models/
 __pycache__
+scrape/Bioseq/artifacts
