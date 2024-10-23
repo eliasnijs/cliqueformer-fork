@@ -9,7 +9,7 @@ import os
 from absl import app, flags
 from ml_collections import config_flags
 
-from models import Cliqueformer, CliqueformerDiscrete, COMs, COMsDiscrete, Naive, NaiveDiscrete
+from models import Cliqueformer, CliqueformerDiscrete, COMs, COMsDiscrete, Naive, NaiveDiscrete, MBOTransformer, MBOTransformerDiscrete
 from optimization.design import Design
 from optimization.lerners import GradientAscent, GradientAscentDiscrete, RWR, RWRDiscrete 
 from data import Dataset, LRBF, Superconductor, TFBind8, DNA
@@ -29,7 +29,7 @@ flags.DEFINE_float('split_ratio', 0.8, 'Train-test split.')
 
 config_flags.DEFINE_config_file(
     'config',
-    'configs/superconductor/cliqueformer.py',
+    'configs/dna/mbo_transformer.py',
     'File with hyperparameter configurations.',
     lock_config=False
 )
