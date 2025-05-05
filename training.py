@@ -19,9 +19,9 @@ import models.graphops as graphops
 FLAGS = flags.FLAGS
 
 flags.DEFINE_integer('seed', int(1), 'Random seed.') 
-flags.DEFINE_integer('batch_size', int(512), 'Batch size.') 
+flags.DEFINE_integer('batch_size', int(32), 'Batch size.') 
 flags.DEFINE_integer('design_batch_size', int(1000), 'Design batch size.') 
-flags.DEFINE_integer('model_steps', int(4e4), 'Model learning size.') 
+flags.DEFINE_integer('model_steps', int(1e3), 'Model learning size.') 
 flags.DEFINE_integer('beta_warmup', int(1e3), 'Number of KL warmup steps.')
 flags.DEFINE_integer('N_eval', int(2e2), 'Evaluation frequency.')
 flags.DEFINE_integer('top_k', int(10), 'The best designs for evaluation.')
@@ -35,7 +35,8 @@ config_flags.DEFINE_config_file(
 )
 
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+# Set global device - using CPU for now as GPU is causing memory issues
+device = torch.device("cpu")
 
 
 def main(_):

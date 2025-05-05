@@ -19,7 +19,7 @@ import models.graphops as graphops
 FLAGS = flags.FLAGS
 
 flags.DEFINE_integer('seed', int(1), 'Random seed.') 
-flags.DEFINE_integer('design_batch_size', int(1000), 'Design batch size.') 
+flags.DEFINE_integer('design_batch_size', int(64), 'Design batch size.') 
 flags.DEFINE_integer('top_k', int(10), 'The best designs for evaluation.') 
 flags.DEFINE_float('split_ratio', 0.8, 'Train-test split.') 
 
@@ -31,7 +31,8 @@ config_flags.DEFINE_config_file(
 )
 
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+# Set global device - using CPU for now as GPU is causing memory issues
+device = torch.device("cpu")
 
 
 def main(_):
@@ -105,7 +106,14 @@ def main(_):
     with open(model_path, 'rb') as model_file:
         model = pickle.load(model_file)
     
-    model = nn.DataParallel(model)
+    # Move model to device before creating DataParallel
+    model = model.to(device)
+    
+    # Only use DataParallel if multiple GPUs are available
+    if torch.cuda.device_count() > 1:
+        model = nn.DataParallel(model)
+    else:
+        print("Using a single GPU/CPU - DataParallel not needed")
 
     #
     # Initialize the design from the dataset
@@ -114,9 +122,15 @@ def main(_):
     init_design = x.to(device)
 
     if 'Cliqueformer' in model_cls:
-        index_matrix = model.module.index_matrix.to(device)
+        # Access index_matrix correctly whether using DataParallel or not
+        if hasattr(model, 'module'):
+            index_matrix = model.module.index_matrix.to(device)
+            init_design = model.module.encode(init_design, separate=False)
+        else:
+            index_matrix = model.index_matrix.to(device)
+            init_design = model.encode(init_design, separate=False)
+            
         learner_kwargs['structure_fn'] = (lambda x: graphops.separate_latents(x, index_matrix))
-        init_design = model.module.encode(init_design, separate=False)
 
     design = Design(init_design).to(device)
 
@@ -125,13 +139,26 @@ def main(_):
     #
     learner_cls = learner_kwargs.pop('cls')
     design_steps = learner_kwargs.pop('design_steps')
-    learner_model = nn.DataParallel(model.module.target_regressor)
+    
+    # Get the target regressor from the model (with or without module attribute)
+    if hasattr(model, 'module'):
+        target_regressor = model.module.target_regressor
+    else:
+        target_regressor = model.target_regressor
+    
+    # Only use DataParallel if multiple GPUs are available
+    if torch.cuda.device_count() > 1:
+        learner_model = nn.DataParallel(target_regressor)
+    else:
+        learner_model = target_regressor
+        
     learner = globals()[learner_cls](design, learner_model, **learner_kwargs)
     
     #
     # Train the learner
     #
     for step in range(design_steps):
+        print(step)
         #
         # Make a train step
         #
@@ -145,7 +172,11 @@ def main(_):
         if 'Cliqueformer' in model_cls:
             with torch.no_grad():
                 design = graphops.separate_latents(design, index_matrix)
-                design = model.module.decode(design)
+                # Handle decoding with or without DataParallel
+                if hasattr(model, 'module'):
+                    design = model.module.decode(design)
+                else:
+                    design = model.decode(design)
 
         design = design.detach().cpu().numpy()
         true_val = dataset.evaluate(design, from_standardized_x=True, to_standardized_y=False)

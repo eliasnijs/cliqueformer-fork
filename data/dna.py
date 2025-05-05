@@ -5,7 +5,8 @@ import torch.nn as nn
 import pickle
 from grelu.lightning import LightningModel
 
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+# Use consistent device across the codebase - using CPU for now to avoid memory issues
+device = torch.device("cpu")
 
 import os 
 from data.dataset import Dataset
@@ -29,8 +30,17 @@ class DNA(Dataset):
         # Fetch the model
         #
         model_path = os.path.join("scrape", "Bioseq", "artifacts", "DNA-model:v0", "reward_model.ckpt")
-        model = LightningModel.load_from_checkpoint(model_path)
-        model = nn.DataParallel(model)
+        
+        # Explicitly map the model to CPU first
+        model = LightningModel.load_from_checkpoint(model_path, map_location="cpu")
+        
+        # Move model to device
+        model = model.to(device)
+        
+        # Only use DataParallel if there's more than one GPU
+        if torch.cuda.device_count() > 1:
+            model = nn.DataParallel(model)
+            
         self.oracle = model
         self.oracle.eval()
 
@@ -66,7 +76,7 @@ class DNA(Dataset):
             # Prepare for oracle predictions
             #
             y = np.zeros((x.shape[0], 3))
-            batch_size = 1024
+            batch_size = 128  # Reduced batch size to save memory
             start = 0
 
             while start < n_data:
